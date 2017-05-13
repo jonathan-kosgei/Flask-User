@@ -5,6 +5,10 @@
     :author: Ling Thio (ling.thio@gmail.com)
     :license: Simplified BSD License, see LICENSE.txt for more details."""
 
+import postmark
+from postmark.rest import ApiException
+from pprint import pprint
+
 import smtplib
 import socket
 from flask import current_app, render_template
