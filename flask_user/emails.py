@@ -7,7 +7,7 @@
 
 import smtplib
 import socket
-from flask import current_app, render_template, config
+from flask import current_app, render_template
 
 def _render_email(filename, **kwargs):
     # Render subject
@@ -32,10 +32,10 @@ def postmark_send_email(recipient, subject, html_message, text_message):
     class SendEmailError(Exception):
         pass
 
-    x_postmark_server_token = config['POSTMARK_API_KEY']
+    x_postmark_server_token = current_app.config['POSTMARK_API_KEY']
 
     body = postmark.SendEmailRequest()
-    body._from = config['POSTMARK_DEFAULT_SENDER'] # from flask config
+    body._from = current_app.config['POSTMARK_DEFAULT_SENDER'] # from flask config
     body.to = recipient
     body.subject = subject
     body.html_body = html_message
