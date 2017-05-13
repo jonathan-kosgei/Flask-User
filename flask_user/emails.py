@@ -23,7 +23,7 @@ def _render_email(filename, **kwargs):
     return (subject, html_message, text_message)
 
 ############################################
-# Add a function to send emails via Postmark
+# Add function to send emails via Postmark
 ############################################
 
 def postmark_send_email(recipient, subject, html_message, text_message):
