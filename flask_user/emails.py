@@ -36,6 +36,8 @@ def postmark_send_email(recipient, subject, html_message, text_message):
     class SendEmailError(Exception):
         pass
 
+    api_instance = postmark.SendingAPIApi()
+
     x_postmark_server_token = current_app.config['POSTMARK_API_KEY']
 
     body = postmark.SendEmailRequest()
