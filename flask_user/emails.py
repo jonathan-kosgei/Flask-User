@@ -7,7 +7,7 @@
 
 import smtplib
 import socket
-from flask import current_app, render_template
+from flask import current_app, render_template, config
 
 def _render_email(filename, **kwargs):
     # Render subject
@@ -21,6 +21,33 @@ def _render_email(filename, **kwargs):
     text_message = render_template(filename+'_message.txt', **kwargs)
 
     return (subject, html_message, text_message)
+
+############################################
+# Add a function to send emails via Postmark
+############################################
+
+def postmark_send_email(recipient, subject, html_message, text_message):
+    """ Send email from default sender to 'recipient' """
+
+    class SendEmailError(Exception):
+        pass
+
+    x_postmark_server_token = config['POSTMARK_API_KEY']
+
+    body = postmark.SendEmailRequest()
+    body._from = config['POSTMARK_DEFAULT_SENDER'] # from flask config
+    body.to = recipient
+    body.subject = subject
+    body.html_body = html_message
+    body.text_body = text_message
+
+    try: 
+        # Send a single email
+        api_response = api_instance.send_email(x_postmark_server_token, body=body)
+        pprint(api_response)
+    except ApiException as e:
+        SendEmailError("Exception when calling SendingAPIApi->send_email: %s\n" % e)
+
 
 def send_email(recipient, subject, html_message, text_message):
     """ Send email from default sender to 'recipient' """

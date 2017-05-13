@@ -88,7 +88,10 @@ class UserManager(object):
                 # Misc
                 login_manager=LoginManager(),
                 password_crypt_context=None,
-                send_email_function = emails.send_email,
+                ####################################################
+                # Change the default email function to user Postmark
+                ####################################################
+                send_email_function = emails.postmark_send_email,
                 token_manager=tokens.TokenManager(),
                 legacy_check_password_hash=None
                 ):
